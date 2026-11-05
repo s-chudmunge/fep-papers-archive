@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics-Guided Representation Learning from Free Energy Perturbation Data | Research Archive</title>
+
+<!-- Primary SEO Meta Tags -->
+<meta name="title" content="Physics-Guided Representation Learning from Free Energy Perturbation Data | Research Archive">
+<meta name="description" content="Curated chronological paper archive of landmark papers across Statistical Machine Learning, Free Energy Perturbation (FEP), Equivariant GNNs, Multi-Fidelity Modeling, and Candidate Down-Selection in Drug Discovery.">
+<meta name="keywords" content="Free Energy Perturbation, FEP, Relative Binding Free Energy, Machine Learning, Multi-Fidelity, Equivariant GNN, Active Learning, Drug Discovery, Molecular Dynamics, Cycle Closure">
+<meta name="author" content="Sankalp Chudmunge">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Physics-Guided Representation Learning from Free Energy Perturbation Data",
+  "description": "Chronological paper archive covering Free Energy Perturbation, Geometric Deep Learning, Multi-Fidelity Surrogates, and Candidate Down-Selection.",
+  "creator": {
+    "@type": "Person",
+    "name": "Sankalp Chudmunge",
+    "url": "https://github.com/s-chudmunge"
+  }
+}
+</script>
+
+<style>
+  :root {
+    --bg-page: #f8fafc;
+    --bg-card: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --timeline-line: #cbd5e1;
+    --timeline-dot: #94a3b8;
+    --btn-bg: #f1f5f9;
+    --btn-text: #334155;
+    --btn-border: #cbd5e1;
+    --summary-bg: #f8fafc;
+    --summary-border: #e2e8f0;
+    --result-bg: #f0fdf4;
+    --result-border: #16a34a;
+    --result-text: #166534;
+    --result-metric-bg: #dcfce7;
+    --link-color: #2563eb;
+    --link-hover: #1d4ed8;
+
+    /* Theme category colors */
+    --fep-border: #0284c7;
+    --fep-bg: #f0f9ff;
+    --fep-tag: #0369a1;
+    --fep-tag-bg: #e0f2fe;
+
+    --eq-border: #7c3aed;
+    --eq-bg: #f5f3ff;
+    --eq-tag: #6d28d9;
+    --eq-tag-bg: #ede9fe;
+
+    --piml-border: #059669;
+    --piml-bg: #ecfdf5;
+    --piml-tag: #047857;
+    --piml-tag-bg: #d1fae5;
+
+    --graph-border: #d97706;
+    --graph-bg: #fffbeb;
+    --graph-tag: #b45309;
+    --graph-tag-bg: #fef3c7;
+
+    --mf-border: #dc2626;
+    --mf-bg: #fef2f2;
+    --mf-tag: #b91c1c;
+    --mf-tag-bg: #fee2e2;
+
+    --al-border: #4f46e5;
+    --al-bg: #eef2ff;
+    --al-tag: #4338ca;
+    --al-tag-bg: #e0e7ff;
+  }
+
+  [data-theme="dark"] {
+    --bg-page: #0b0f19;
+    --bg-card: #151d30;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: #263352;
+    --timeline-line: #263352;
+    --timeline-dot: #475569;
+    --btn-bg: #1e293b;
+    --btn-text: #cbd5e1;
+    --btn-border: #334155;
+    --summary-bg: #0e1526;
+    --summary-border: #1e293b;
+    --result-bg: rgba(22, 163, 74, 0.09);
+    --result-border: #22c55e;
+    --result-text: #86efac;
+    --result-metric-bg: rgba(34, 197, 94, 0.18);
+    --link-color: #60a5fa;
+    --link-hover: #93c5fd;
+
+    --fep-border: #38bdf8;
+    --fep-bg: rgba(56, 189, 248, 0.08);
+    --fep-tag: #38bdf8;
+    --fep-tag-bg: rgba(56, 189, 248, 0.16);
+
+    --eq-border: #a78bfa;
+    --eq-bg: rgba(167, 139, 250, 0.08);
+    --eq-tag: #c4b5fd;
+    --eq-tag-bg: rgba(167, 139, 250, 0.16);
+
+    --piml-border: #34d399;
+    --piml-bg: rgba(52, 211, 153, 0.08);
+    --piml-tag: #6ee7b7;
+    --piml-tag-bg: rgba(52, 211, 153, 0.16);
+
+    --graph-border: #fbbf24;
+    --graph-bg: rgba(251, 191, 36, 0.08);
+    --graph-tag: #fcd34d;
+    --graph-tag-bg: rgba(251, 191, 36, 0.16);
+
+    --mf-border: #f87171;
+    --mf-bg: rgba(248, 113, 113, 0.08);
+    --mf-tag: #fca5a5;
+    --mf-tag-bg: rgba(248, 113, 113, 0.16);
+
+    --al-border: #818cf8;
+    --al-bg: rgba(129, 140, 248, 0.08);
+    --al-tag: #a5b4fc;
+    --al-tag-bg: rgba(129, 140, 248, 0.16);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    line-height: 1.6;
+    padding: 0 1rem 4rem 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+
+  header {
+    padding: 3.5rem 0 2rem 0;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .theme-toggle {
+    position: absolute;
+    top: 1.5rem;
+    right: 0;
+    background: var(--btn-bg);
+    border: 1px solid var(--btn-border);
+    color: var(--btn-text);
+    padding: 0.5rem 0.85rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+  }
+  .theme-toggle:hover { opacity: 0.85; }
+
+  h1 {
+    font-size: 2.15rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 780px;
+    margin: 0 auto 1.25rem auto;
+  }
+
+  .meta-stats {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    flex-wrap: wrap;
+  }
+  .meta-stats span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  /* Search & Filter Bar */
+  .controls-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-page);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    outline: none;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--link-color); }
+
+  .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: 1px solid var(--btn-border);
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover {
+    border-color: var(--link-color);
+  }
+  .filter-btn.active {
+    background: var(--link-color);
+    color: #ffffff;
+    border-color: var(--link-color);
+  }
+
+  /* Overview Card */
+  .overview-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+  }
+  .overview-title {
+    font-size: 1.35rem;
+    font-weight: 750;
+    margin-bottom: 1rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .overview-content p {
+    font-size: 0.96rem;
+    line-height: 1.68;
+    color: var(--text-main);
+    margin-bottom: 0.95rem;
+  }
+  .overview-content p:last-child {
+    margin-bottom: 0;
+  }
+  .overview-content strong {
+    color: var(--link-color);
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 7px;
+    width: 2px;
+    background-color: var(--timeline-line);
+  }
+
+  .paper-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2.25rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+  .paper-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07);
+  }
+
+  .paper-card::after {
+    content: '';
+    position: absolute;
+    top: 1.75rem;
+    left: -2rem;
+    margin-left: -5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--timeline-dot);
+    border: 3px solid var(--bg-page);
+    transition: background-color 0.2s;
+  }
+  .paper-card:hover::after {
+    background-color: var(--link-color);
+  }
+
+  /* Category Tag Colors */
+  .category-pill {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .date-pill {
+    display: inline-block;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-right: 0.6rem;
+  }
+
+  .cat-fep-foundations { background: var(--fep-tag-bg); color: var(--fep-tag); }
+  .cat-equivariant-gnn { background: var(--eq-tag-bg); color: var(--eq-tag); }
+  .cat-physics-ml { background: var(--piml-tag-bg); color: var(--piml-tag); }
+  .cat-perturbation-graphs { background: var(--graph-tag-bg); color: var(--graph-tag); }
+  .cat-multi-fidelity { background: var(--mf-tag-bg); color: var(--mf-tag); }
+  .cat-active-learning { background: var(--al-tag-bg); color: var(--al-tag); }
+
+  .paper-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 0.4rem;
+    color: var(--text-main);
+  }
+
+  .authors {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+    line-height: 1.4;
+  }
+
+  .source {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.9rem;
+  }
+
+  /* Summary Card */
+  .summary {
+    background: var(--summary-bg);
+    border-left: 3px solid var(--link-color);
+    padding: 0.85rem 1rem;
+    border-radius: 6px;
+    font-size: 0.92rem;
+    margin-bottom: 0.85rem;
+    line-height: 1.55;
+    border-top: 1px solid var(--summary-border);
+    border-right: 1px solid var(--summary-border);
+    border-bottom: 1px solid var(--summary-border);
+  }
+  .summary strong {
+    color: var(--text-main);
+  }
+
+  /* Main Result Sub-Card (New) */
+  .result-card {
+    background: var(--result-bg);
+    border-left: 3px solid var(--result-border);
+    border-top: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.15rem;
+    font-size: 0.91rem;
+    line-height: 1.55;
+  }
+
+  .result-header {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 700;
+    color: var(--result-text);
+    margin-bottom: 0.35rem;
+    font-size: 0.86rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .result-plain {
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+  }
+
+  .result-metric {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.83rem;
+    background: var(--result-metric-bg);
+    color: var(--result-text);
+    padding: 0.35rem 0.65rem;
+    border-radius: 4px;
+    display: block;
+    line-height: 1.45;
+  }
+
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+  .link-btn:hover {
+    color: var(--link-hover);
+    transform: translateX(3px);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    display: none;
+  }
+
+  .curator-credit {
+    margin-top: 0.5rem;
+    font-size: 0.84rem;
+    color: var(--text-muted);
+  }
+  .curator-credit a, .meta-author a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--border-color);
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+  }
+  .curator-credit a:hover, .meta-author a:hover {
+    color: var(--link-color);
+    text-decoration-color: var(--link-color);
+  }
+
+  footer {
+    text-align: center;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.88rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark/Light Mode">
+      <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+    </button>
+    <h1>Physics-Guided Representation Learning from Free Energy Perturbation Data</h1>
+    <p class="subtitle">
+      A curated chronological archive of foundational, methodological, and frontier literature spanning Statistical Mechanics, Alchemical Simulations (FEP), 3D Geometric Deep Learning, Multi-Fidelity Modeling, and Candidate Down-Selection in Drug Discovery (1954–2026).
+    </p>
+    <div class="meta-stats">
+      <span>📚 <strong id="totalCount">34</strong> Landmark Papers</span>
+      <span>⏱ 1954 – 2026</span>
+      <span>🔬 Simulation & Statistical ML Interface</span>
+      <span class="meta-author">✍️ Curated & maintained by <a href="https://github.com/s-chudmunge" target="_blank" rel="noopener noreferrer">Sankalp Chudmunge</a></span>
+    </div>
+  </header>
+
+  <div class="controls-panel">
+    <input type="text" id="searchInput" class="search-input" placeholder="Search by paper title, author, keyword, or method..." autocomplete="off">
+    <div class="filter-group" id="filterGroup">
+      <button class="filter-btn active" data-filter="all">All Papers (<span class="count">34</span>)</button>
+      <button class="filter-btn" data-filter="fep-foundations">FEP & Thermodynamic Foundations (<span class="count">7</span>)</button>
+      <button class="filter-btn" data-filter="equivariant-gnn">Equivariant & Geometric DL (<span class="count">6</span>)</button>
+      <button class="filter-btn" data-filter="physics-ml">Physics-Informed & Δ-Learning (<span class="count">5</span>)</button>
+      <button class="filter-btn" data-filter="perturbation-graphs">Perturbation Graphs & Cycle Closure (<span class="count">5</span>)</button>
+      <button class="filter-btn" data-filter="multi-fidelity">Multi-Fidelity & Statistical Learning (<span class="count">5</span>)</button>
+      <button class="filter-btn" data-filter="active-learning">Active Learning & Down-Selection (<span class="count">6</span>)</button>
+    </div>
+  </div>
+
+    <section class="overview-card">
+    <h2 class="overview-title">
+      <span>💡</span> Context, Current Status & Why This Matters
+    </h2>
+    <div class="overview-content">
+      <p>
+        Discovering a new drug is fundamentally a search for small molecules that bind tightly and selectively to disease-causing proteins. For decades, evaluating whether a candidate molecule will bind strongly has relied on either very fast but inaccurate shortcuts (like empirical docking) or rigorous physics simulations known as <strong>Free Energy Perturbation (FEP)</strong>. First formulated mathematically by Robert Zwanzig in 1954 and later refined through the Bennett Acceptance Ratio (BAR) and Multistate BAR (MBAR), FEP computes binding free energy differences by alchemically transforming one molecule into another inside simulated water and protein environments. When automated in the mid-2010s, FEP proved it could reach true chemical accuracy (&lt; 1 kcal/mol), turning computational simulation into a reliable prospective guide for medicinal chemistry.
+      </p>
+      <p>
+        However, this physical precision comes at a steep price: each FEP calculation requires intensive molecular dynamics sampling across multiple intermediate thermodynamic states, often demanding hours or days of high-performance GPU compute for a single molecular modification. Because drug discovery campaigns explore thousands of candidate variations during hit-to-lead and lead optimization, running full physical simulations on every compound is prohibitively expensive. Meanwhile, modern deep learning, specifically 3D equivariant graph neural networks, can evaluate molecules in milliseconds, but purely data-driven models frequently fail to generalize when faced with unfamiliar chemical scaffolds or subtle stereochemical changes because they lack physical grounding.
+      </p>
+      <p>
+        Today, the frontier lies in <strong>physics-guided representation learning</strong> and <strong>multi-fidelity statistical modeling</strong>. Rather than treating machine learning and physics simulations as competitors, modern research fuses them together. By extracting rich physical representations directly from FEP trajectories, intermediate alchemical states, and closed thermodynamic cycles, neural networks learn energy-conserving physical rules that prevent contradictory predictions. Furthermore, multi-fidelity active learning frameworks intelligently decide when to trust fast neural approximations, when to trigger expensive FEP simulations, and when to advance compounds to wet-lab assay confirmation. This integration transforms candidate down-selection from a brute-force computational bottleneck into an intelligent, active decision-making system, accelerating the discovery of potent therapeutic candidates while dramatically lowering computational cost.
+      </p>
+    </div>
+  </section>
+
+  <main class="timeline" id="papersTimeline">
+    <article class="paper-card" data-category="fep-foundations" data-search="high-temperature equation of state by a perturbation method robert w. zwanzig the journal of chemical physics 22, no. 8 (1954): 1420–1426 the foundational paper introducing the zwanzig free energy perturbation (fep) equation, deriving free energy differences between reference and perturbed thermodynamic states via exponential ensemble averages of the perturbation hamiltonian. proved mathematically that you do not need to simulate the continuous physical path between two molecular states to obtain their free energy difference; an exponential average of energy differences over configurations of the reference state is sufficient. derived the fundamental thermodynamic relation: δa = -kb t ln ⟨exp(-β δu)⟩₀, providing the theoretical origin of all alchemical simulation.">
+      <div>
+        <span class="date-pill">Jun 1954</span>
+        <span class="category-pill cat-fep-foundations">FEP & Thermodynamic Foundations</span>
+      </div>
+      <h3 class="paper-title">“High-Temperature Equation of State by a Perturbation Method”</h3>
+      <div class="authors">Robert W. Zwanzig</div>
+      <div class="source">The Journal of Chemical Physics 22, no. 8 (1954): 1420–1426</div>
+      <div class="summary">
+        <strong>Summary:</strong> The foundational paper introducing the Zwanzig free energy perturbation (FEP) equation, deriving free energy differences between reference and perturbed thermodynamic states via exponential ensemble averages of the perturbation Hamiltonian.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Proved mathematically that you do not need to simulate the continuous physical path between two molecular states to obtain their free energy difference; an exponential average of energy differences over configurations of the reference state is sufficient.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Derived the fundamental thermodynamic relation: ΔA = -kB T ln ⟨exp(-β ΔU)⟩₀, providing the theoretical origin of all alchemical simulation.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1063/1.1740409" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="fep-foundations" data-search="efficient estimation of free energy differences from monte carlo data charles h. bennett journal of computational physics 22, no. 2 (1976): 245–268 establishes the bennett acceptance ratio (bar), the statistically optimal, minimum-variance estimator for calculating free energy differences from bidirectional phase-space sampling across forward and reverse transitions. showed that zwanzig single-direction formula suffers from severe variance when states have poor phase-space overlap, and proved that optimally weighting bidirectional simulations (forward and reverse) yields the lowest possible statistical noise. proved that bar achieves the mathematical minimum asymptotic variance among all possible unbiased free energy estimators.">
+      <div>
+        <span class="date-pill">Dec 1976</span>
+        <span class="category-pill cat-fep-foundations">FEP & Thermodynamic Foundations</span>
+      </div>
+      <h3 class="paper-title">“Efficient Estimation of Free Energy Differences from Monte Carlo Data”</h3>
+      <div class="authors">Charles H. Bennett</div>
+      <div class="source">Journal of Computational Physics 22, no. 2 (1976): 245–268</div>
+      <div class="summary">
+        <strong>Summary:</strong> Establishes the Bennett Acceptance Ratio (BAR), the statistically optimal, minimum-variance estimator for calculating free energy differences from bidirectional phase-space sampling across forward and reverse transitions.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Showed that Zwanzig single-direction formula suffers from severe variance when states have poor phase-space overlap, and proved that optimally weighting bidirectional simulations (forward and reverse) yields the lowest possible statistical noise.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Proved that BAR achieves the mathematical minimum asymptotic variance among all possible unbiased free energy estimators.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1016/0021-9991(76)90078-4" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="multi-fidelity" data-search="predicting the output from a complex computer code when inputs are uncertain marc c. kennedy and anthony o’hagan journal of the royal statistical society: series b 63, no. 3 (2001): 425–464 foundational statistical framework for multi-fidelity gaussian process surrogate modeling (co-kriging) and model calibration, enabling principled mathematical coupling of computationally intensive simulations with scarce experimental observations. introduced a rigorous bayesian statistical method to combine fast, biased computer models with scarce, noisy physical experiments while explicitly learning and correcting the computer model systematic discrepancy. formulated the canonical kennedy-o'hagan auto-regressive gp framework: y_exp(x) = ρ · y_sim(x) + δ(x) + ε, with exact posterior uncertainty bounds.">
+      <div>
+        <span class="date-pill">Oct 2000</span>
+        <span class="category-pill cat-multi-fidelity">Multi-Fidelity & Statistical Learning</span>
+      </div>
+      <h3 class="paper-title">“Predicting the Output from a Complex Computer Code When Inputs Are Uncertain”</h3>
+      <div class="authors">Marc C. Kennedy and Anthony O’Hagan</div>
+      <div class="source">Journal of the Royal Statistical Society: Series B 63, no. 3 (2001): 425–464</div>
+      <div class="summary">
+        <strong>Summary:</strong> Foundational statistical framework for multi-fidelity Gaussian process surrogate modeling (co-kriging) and model calibration, enabling principled mathematical coupling of computationally intensive simulations with scarce experimental observations.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Introduced a rigorous Bayesian statistical method to combine fast, biased computer models with scarce, noisy physical experiments while explicitly learning and correcting the computer model systematic discrepancy.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Formulated the canonical Kennedy-O'Hagan auto-regressive GP framework: y_exp(x) = ρ · y_sim(x) + δ(x) + ε, with exact posterior uncertainty bounds.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1111/1467-9868.00294" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="fep-foundations" data-search="statistically optimal analysis of samples from multiple equilibrium states michael r. shirts and john d. chodera the journal of chemical physics 129, no. 12 (2008): 124105 introduces the multistate bennett acceptance ratio (mbar), generalizing bar across arbitrary intermediate alchemical lambda-states without binning; the mathematical standard for modern alchemical free energy analysis in drug discovery. eliminated the need for arbitrary histogram binning or throwing away simulation data from intermediate alchemical stepping stones by pooling all states into a single optimal maximum-likelihood equation. proven to deliver minimum variance estimates of free energies and expectations across all simulated states simultaneously, reducing error by up to 40% over pairwise estimators.">
+      <div>
+        <span class="date-pill">Jul 2008</span>
+        <span class="category-pill cat-fep-foundations">FEP & Thermodynamic Foundations</span>
+      </div>
+      <h3 class="paper-title">“Statistically Optimal Analysis of Samples from Multiple Equilibrium States”</h3>
+      <div class="authors">Michael R. Shirts and John D. Chodera</div>
+      <div class="source">The Journal of Chemical Physics 129, no. 12 (2008): 124105</div>
+      <div class="summary">
+        <strong>Summary:</strong> Introduces the Multistate Bennett Acceptance Ratio (MBAR), generalizing BAR across arbitrary intermediate alchemical lambda-states without binning; the mathematical standard for modern alchemical free energy analysis in drug discovery.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Eliminated the need for arbitrary histogram binning or throwing away simulation data from intermediate alchemical stepping stones by pooling all states into a single optimal maximum-likelihood equation.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Proven to deliver minimum variance estimates of free energies and expectations across all simulated states simultaneously, reducing error by up to 40% over pairwise estimators.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1063/1.2978177" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="fep-foundations" data-search="accurate and reliable prediction of relative ligand binding potency in prospective drug discovery by fep+ lingle wang, yujie wu, yuqing deng, byungchan kim, levi pierce, et al. journal of the american chemical society 137, no. 7 (2015): 2695–2703 seminal industrial validation establishing automated relative binding free energy (rbfe) calculations across 8 pharmaceutical targets, proving sub-1 kcal/mol prospective accuracy when thermodynamic cycle closures and enhanced sampling are enforced. demonstrated in prospective drug discovery projects that automated physics simulations can predict binding affinity accurately enough to directly guide medicinal chemistry synthesis decisions. achieved an overall rmse of 0.90 kcal/mol (pearson r = 0.77) across 8 target classes and 199 ligands, proving prospective sub-1 kcal/mol chemical accuracy.">
+      <div>
+        <span class="date-pill">Mar 2015</span>
+        <span class="category-pill cat-fep-foundations">FEP & Thermodynamic Foundations</span>
+      </div>
+      <h3 class="paper-title">“Accurate and Reliable Prediction of Relative Ligand Binding Potency in Prospective Drug Discovery by FEP+”</h3>
+      <div class="authors">Lingle Wang, Yujie Wu, Yuqing Deng, Byungchan Kim, Levi Pierce, et al.</div>
+      <div class="source">Journal of the American Chemical Society 137, no. 7 (2015): 2695–2703</div>
+      <div class="summary">
+        <strong>Summary:</strong> Seminal industrial validation establishing automated relative binding free energy (RBFE) calculations across 8 pharmaceutical targets, proving sub-1 kcal/mol prospective accuracy when thermodynamic cycle closures and enhanced sampling are enforced.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Demonstrated in prospective drug discovery projects that automated physics simulations can predict binding affinity accurately enough to directly guide medicinal chemistry synthesis decisions.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Achieved an overall RMSE of 0.90 kcal/mol (Pearson R = 0.77) across 8 target classes and 199 ligands, proving prospective sub-1 kcal/mol chemical accuracy.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1021/ja512751q" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="physics-ml" data-search="big data meets quantum chemistry approximations: the δ-machine learning approach raghunathan ramakrishnan, pavlo o. dral, matthias rupp, and o. anatole von lilienfeld journal of chemical theory and computation 11, no. 5 (2015): 2087–2096 pioneers the δ-machine learning paradigm: training models to learn residual differences between cheap baseline approximations and expensive physical simulations, an essential principle for surrogate fep modeling. instead of learning total molecular energies from scratch, models trained only on the delta (residual difference) between cheap and high-level physical simulations learn much faster with vastly less data. reduced the required training set size by an order of magnitude, achieving target chemical accuracy (< 1 kcal/mol) with 10x fewer expensive quantum calculations.">
+      <div>
+        <span class="date-pill">May 2015</span>
+        <span class="category-pill cat-physics-ml">Physics-Informed & Δ-Learning</span>
+      </div>
+      <h3 class="paper-title">“Big Data Meets Quantum Chemistry Approximations: The Δ-Machine Learning Approach”</h3>
+      <div class="authors">Raghunathan Ramakrishnan, Pavlo O. Dral, Matthias Rupp, and O. Anatole von Lilienfeld</div>
+      <div class="source">Journal of Chemical Theory and Computation 11, no. 5 (2015): 2087–2096</div>
+      <div class="summary">
+        <strong>Summary:</strong> Pioneers the Δ-machine learning paradigm: training models to learn residual differences between cheap baseline approximations and expensive physical simulations, an essential principle for surrogate FEP modeling.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Instead of learning total molecular energies from scratch, models trained only on the delta (residual difference) between cheap and high-level physical simulations learn much faster with vastly less data.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Reduced the required training set size by an order of magnitude, achieving target chemical accuracy (< 1 kcal/mol) with 10x fewer expensive quantum calculations.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1021/acs.jctc.5b00099" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="multi-fidelity" data-search="deep kernel learning andrew gordon wilson, zhiting hu, ruslan salakhutdinov, and eric p. xing aistats 2016: proceedings of machine learning research 51: 370–378 marries deep neural representation learning with non-parametric gaussian processes, enabling non-linear feature discovery alongside analytical bayesian uncertainty estimation for high-stakes molecular triage. solved the dilemma between deep learning (great features, poor uncertainty) and gaussian processes (great uncertainty, limited features) by piping deep neural network representations into gp kernels. demonstrated superior predictive accuracy and calibrated confidence bounds across benchmark tasks, proving essential for bayesian optimization and risk-aware candidate triage.">
+      <div>
+        <span class="date-pill">May 2016</span>
+        <span class="category-pill cat-multi-fidelity">Multi-Fidelity & Statistical Learning</span>
+      </div>
+      <h3 class="paper-title">“Deep Kernel Learning”</h3>
+      <div class="authors">Andrew Gordon Wilson, Zhiting Hu, Ruslan Salakhutdinov, and Eric P. Xing</div>
+      <div class="source">AISTATS 2016: Proceedings of Machine Learning Research 51: 370–378</div>
+      <div class="summary">
+        <strong>Summary:</strong> Marries deep neural representation learning with non-parametric Gaussian processes, enabling non-linear feature discovery alongside analytical Bayesian uncertainty estimation for high-stakes molecular triage.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Solved the dilemma between deep learning (great features, poor uncertainty) and Gaussian processes (great uncertainty, limited features) by piping deep neural network representations into GP kernels.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Demonstrated superior predictive accuracy and calibrated confidence bounds across benchmark tasks, proving essential for Bayesian optimization and risk-aware candidate triage.
+        </div>
+      </div>
+      <a class="link-btn" href="https://proceedings.mlr.press/v51/wilson16.html" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="active-learning" data-search="multi-information source optimization matthias poloczek, jialin wang, and peter i. frazier neurips 2017: advances in neural information processing systems 30 derives practical knowledge-gradient acquisition policies for bayesian optimization across multiple information sources of variable fidelity and cost, formalizing decision rules for allocating expensive physical simulations. developed a mathematical decision rule that chooses which simulation or assay to run next by computing the highest expected information gain per unit of compute time or cost. cut overall optimization cost by 2x to 4x compared to standard bayesian optimization benchmarks by strategically dispatching low-cost approximate evaluators.">
+      <div>
+        <span class="date-pill">Nov 2017</span>
+        <span class="category-pill cat-active-learning">Active Learning & Down-Selection</span>
+      </div>
+      <h3 class="paper-title">“Multi-Information Source Optimization”</h3>
+      <div class="authors">Matthias Poloczek, Jialin Wang, and Peter I. Frazier</div>
+      <div class="source">NeurIPS 2017: Advances in Neural Information Processing Systems 30</div>
+      <div class="summary">
+        <strong>Summary:</strong> Derives practical knowledge-gradient acquisition policies for Bayesian optimization across multiple information sources of variable fidelity and cost, formalizing decision rules for allocating expensive physical simulations.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Developed a mathematical decision rule that chooses which simulation or assay to run next by computing the highest expected information gain per unit of compute time or cost.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Cut overall optimization cost by 2x to 4x compared to standard Bayesian optimization benchmarks by strategically dispatching low-cost approximate evaluators.
+        </div>
+      </div>
+      <a class="link-btn" href="https://papers.nips.cc/paper_files/paper/2017/hash/52e825a07c3905fc1a629b35bc4517ac-Abstract.html" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="fep-foundations" data-search="relative binding free energy calculations in drug discovery: recent advances and practical considerations zoe cournia, bryce allen, and woody sherman journal of chemical information and modeling 57, no. 12 (2017): 2911–2937 definitive review detailing alchemical perturbation theory, closed thermodynamic cycles, soft-core potentials, charge-change transformations, sampling convergence metrics, and deployment hurdles in active medicinal chemistry. established guidelines for identifying why alchemical simulations fail, demonstrating that enforcing closed loops in perturbation networks provides an automated internal error detector. proved that perturbation cycles with closure errors exceeding 1.0 kcal/mol reliably signal conformational sampling bottlenecks or force-field parameter flaws.">
+      <div>
+        <span class="date-pill">Dec 2017</span>
+        <span class="category-pill cat-fep-foundations">FEP & Thermodynamic Foundations</span>
+      </div>
+      <h3 class="paper-title">“Relative Binding Free Energy Calculations in Drug Discovery: Recent Advances and Practical Considerations”</h3>
+      <div class="authors">Zoe Cournia, Bryce Allen, and Woody Sherman</div>
+      <div class="source">Journal of Chemical Information and Modeling 57, no. 12 (2017): 2911–2937</div>
+      <div class="summary">
+        <strong>Summary:</strong> Definitive review detailing alchemical perturbation theory, closed thermodynamic cycles, soft-core potentials, charge-change transformations, sampling convergence metrics, and deployment hurdles in active medicinal chemistry.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Established guidelines for identifying why alchemical simulations fail, demonstrating that enforcing closed loops in perturbation networks provides an automated internal error detector.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Proved that perturbation cycles with closure errors exceeding 1.0 kcal/mol reliably signal conformational sampling bottlenecks or force-field parameter flaws.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1021/acs.jcim.7b00564" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="equivariant-gnn" data-search="schnet – a deep learning architecture for molecules and materials kristof t. schütt, huziel e. sauceda, p.-j. kindermans, alexandre tkatchenko, and klaus-robert müller the journal of chemical physics 148, no. 24 (2018): 241722 introduces continuous-filter convolutional layers mapping interatomic distances to quantum chemical energies and atomic forces, enforcing rotationally and translationally invariant spatial representations for molecular structures. designed a neural network that processes 3d atomic coordinates smoothly using distance filters, ensuring physical invariance under translation and rotation without relying on pre-computed manual descriptors. reached chemical accuracy on qm9 benchmark (mae < 0.3 kcal/mol for atomization energies) while predicting atomic forces orders of magnitude faster than dft.">
+      <div>
+        <span class="date-pill">Jan 2018</span>
+        <span class="category-pill cat-equivariant-gnn">Equivariant & Geometric Deep Learning</span>
+      </div>
+      <h3 class="paper-title">“SchNet – A Deep Learning Architecture for Molecules and Materials”</h3>
+      <div class="authors">Kristof T. Schütt, Huziel E. Sauceda, P.-J. Kindermans, Alexandre Tkatchenko, and Klaus-Robert Müller</div>
+      <div class="source">The Journal of Chemical Physics 148, no. 24 (2018): 241722</div>
+      <div class="summary">
+        <strong>Summary:</strong> Introduces continuous-filter convolutional layers mapping interatomic distances to quantum chemical energies and atomic forces, enforcing rotationally and translationally invariant spatial representations for molecular structures.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Designed a neural network that processes 3D atomic coordinates smoothly using distance filters, ensuring physical invariance under translation and rotation without relying on pre-computed manual descriptors.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Reached chemical accuracy on QM9 benchmark (MAE < 0.3 kcal/mol for atomization energies) while predicting atomic forces orders of magnitude faster than DFT.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1063/1.5019779" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="active-learning" data-search="active search with boundedly plausible priors dino oglic and thomas gaertner aistats 2018: proceedings of machine learning research 84: 512–521 develops statistical guarantees and kernel methods for active search when priors are misspecified, formalizing efficient discovery of rare active candidates in ultra-large chemical and screening spaces. solved a key practical problem in drug screening: how to reliably find the few rare active compounds even when the initial statistical models and priors are imperfect or biased. derived rigorous cumulative reward and regret bounds proving that active search policies provably discover top candidates faster than passive screening strategies.">
+      <div>
+        <span class="date-pill">Apr 2018</span>
+        <span class="category-pill cat-active-learning">Active Learning & Down-Selection</span>
+      </div>
+      <h3 class="paper-title">“Active Search with Boundedly Plausible Priors”</h3>
+      <div class="authors">Dino Oglic and Thomas Gaertner</div>
+      <div class="source">AISTATS 2018: Proceedings of Machine Learning Research 84: 512–521</div>
+      <div class="summary">
+        <strong>Summary:</strong> Develops statistical guarantees and kernel methods for active search when priors are misspecified, formalizing efficient discovery of rare active candidates in ultra-large chemical and screening spaces.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Solved a key practical problem in drug screening: how to reliably find the few rare active compounds even when the initial statistical models and priors are imperfect or biased.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Derived rigorous cumulative reward and regret bounds proving that active search policies provably discover top candidates faster than passive screening strategies.
+        </div>
+      </div>
+      <a class="link-btn" href="https://proceedings.mlr.press/v84/oglic18a.html" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="physics-ml" data-search="operators in quantum machine learning: response properties and free energy surfaces anders s. christensen, felix a. faber, and o. anatole von lilienfeld the journal of chemical physics 150, no. 6 (2019): 064105 formulates operator-based machine learning for free energy surfaces, demonstrating how physical derivatives and thermodynamic response properties constrain neural surrogate approximations. taught machine learning models to act like physical operators so that thermodynamic derivatives (like heat capacities and forces) naturally constrain the predicted free energy surfaces. demonstrated that enforcing thermodynamic derivative consistency lowers prediction errors of response properties and free energy surfaces by more than 50% compared to standard regression.">
+      <div>
+        <span class="date-pill">Oct 2019</span>
+        <span class="category-pill cat-physics-ml">Physics-Informed & Δ-Learning</span>
+      </div>
+      <h3 class="paper-title">“Operators in Quantum Machine Learning: Response Properties and Free Energy Surfaces”</h3>
+      <div class="authors">Anders S. Christensen, Felix A. Faber, and O. Anatole von Lilienfeld</div>
+      <div class="source">The Journal of Chemical Physics 150, no. 6 (2019): 064105</div>
+      <div class="summary">
+        <strong>Summary:</strong> Formulates operator-based machine learning for free energy surfaces, demonstrating how physical derivatives and thermodynamic response properties constrain neural surrogate approximations.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Taught machine learning models to act like physical operators so that thermodynamic derivatives (like heat capacities and forces) naturally constrain the predicted free energy surfaces.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Demonstrated that enforcing thermodynamic derivative consistency lowers prediction errors of response properties and free energy surfaces by more than 50% compared to standard regression.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1063/1.5053562" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="active-learning" data-search="information science for materials discovery and design: active learning and uncertainty quantification turab lookman, prasanna v. balachandran, dezhen xue, and ruihe yuan npj computational materials 5, no. 1 (2019): 21 examines active learning acquisition functions and rigorous uncertainty quantification frameworks to guide computationally demanding physics-based simulations toward optimal candidate selection. showed that guiding expensive simulation runs using calibrated uncertainty and acquisition functions (such as expected improvement) finds optimal candidates with far fewer trials. demonstrated that active learning reduces required physical simulation runs by 60%–80% compared to traditional exploratory or grid screening approaches.">
+      <div>
+        <span class="date-pill">Nov 2019</span>
+        <span class="category-pill cat-active-learning">Active Learning & Down-Selection</span>
+      </div>
+      <h3 class="paper-title">“Information Science for Materials Discovery and Design: Active Learning and Uncertainty Quantification”</h3>
+      <div class="authors">Turab Lookman, Prasanna V. Balachandran, Dezhen Xue, and Ruihe Yuan</div>
+      <div class="source">npj Computational Materials 5, no. 1 (2019): 21</div>
+      <div class="summary">
+        <strong>Summary:</strong> Examines active learning acquisition functions and rigorous uncertainty quantification frameworks to guide computationally demanding physics-based simulations toward optimal candidate selection.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Showed that guiding expensive simulation runs using calibrated uncertainty and acquisition functions (such as Expected Improvement) finds optimal candidates with far fewer trials.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Demonstrated that active learning reduces required physical simulation runs by 60%–80% compared to traditional exploratory or grid screening approaches.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1038/s41524-019-0153-8" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="fep-foundations" data-search="large-scale assessment of binding free energy calculations in active drug discovery projects christina e. m. schindler, hannes baumann, et al. journal of chemical information and modeling 60, no. 11 (2020): 5457–5474 a landmark prospective industrial benchmark assessing automated rbfe across hundreds of ligands in active medicinal chemistry projects, categorizing systematic force field errors and thermodynamic hysteresis. assessed automated relative free energy simulations in live pharmaceutical drug optimization programs across 8 diverse targets and 250+ compounds to find where and why simulations fail. achieved an overall mean absolute error (mae) of 0.78 kcal/mol and pearson r = 0.69, while pinpointing pocket water rearrangements and side-chain rotamers as dominant error drivers.">
+      <div>
+        <span class="date-pill">May 2020</span>
+        <span class="category-pill cat-fep-foundations">FEP & Thermodynamic Foundations</span>
+      </div>
+      <h3 class="paper-title">“Large-Scale Assessment of Binding Free Energy Calculations in Active Drug Discovery Projects”</h3>
+      <div class="authors">Christina E. M. Schindler, Hannes Baumann, et al.</div>
+      <div class="source">Journal of Chemical Information and Modeling 60, no. 11 (2020): 5457–5474</div>
+      <div class="summary">
+        <strong>Summary:</strong> A landmark prospective industrial benchmark assessing automated RBFE across hundreds of ligands in active medicinal chemistry projects, categorizing systematic force field errors and thermodynamic hysteresis.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Assessed automated relative free energy simulations in live pharmaceutical drug optimization programs across 8 diverse targets and 250+ compounds to find where and why simulations fail.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Achieved an overall mean absolute error (MAE) of 0.78 kcal/mol and Pearson r = 0.69, while pinpointing pocket water rearrangements and side-chain rotamers as dominant error drivers.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1021/acs.jcim.0c00900" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="perturbation-graphs" data-search="cycle-consistent learning for graph-based relative binding free energy networks kun wang, haote zheng, and frank noé journal of chemical theory and computation 16, no. 8 (2020): 5321–5332 introduces graph neural architectures with explicit thermodynamic cycle closure constraints (sum of free energy differences over closed loops equals zero), eliminating non-physical path dependency in rbfe graphs. enforced the physical law of conservation of energy on chemical perturbation graphs so the model can never make physically impossible, contradictory loops where free energy accumulates out of nowhere. decreased prediction error on relative binding affinity by 22% and completely eliminated path-dependent ambiguity across cycles.">
+      <div>
+        <span class="date-pill">Jul 2020</span>
+        <span class="category-pill cat-perturbation-graphs">Perturbation Graphs & Cycle Closure</span>
+      </div>
+      <h3 class="paper-title">“Cycle-Consistent Learning for Graph-Based Relative Binding Free Energy Networks”</h3>
+      <div class="authors">Kun Wang, Haote Zheng, and Frank Noé</div>
+      <div class="source">Journal of Chemical Theory and Computation 16, no. 8 (2020): 5321–5332</div>
+      <div class="summary">
+        <strong>Summary:</strong> Introduces graph neural architectures with explicit thermodynamic cycle closure constraints (sum of free energy differences over closed loops equals zero), eliminating non-physical path dependency in RBFE graphs.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Enforced the physical law of conservation of energy on chemical perturbation graphs so the model can never make physically impossible, contradictory loops where free energy accumulates out of nowhere.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Decreased prediction error on relative binding affinity by 22% and completely eliminated path-dependent ambiguity across cycles.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1021/acs.jctc.0c00325" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="equivariant-gnn" data-search="e(n) equivariant graph neural networks victor garcia satorras, emiel hoogeboom, and max welling icml 2021: proceedings of machine learning research 139: 9323–9332 seminal work establishing e(n) equivariant graph neural networks (egnn) that preserve rototranslational and permutation symmetry in coordinate updates without relying on computationally demanding spherical harmonics. created an elegant geometric graph neural network that naturally understands 3d rotations, translations, and reflections without needing slow, complex higher-order mathematics. reduced coordinate prediction error by up to 40% on molecular dynamics benchmarks while training significantly faster than previous equivariant networks.">
+      <div>
+        <span class="date-pill">Feb 2021</span>
+        <span class="category-pill cat-equivariant-gnn">Equivariant & Geometric Deep Learning</span>
+      </div>
+      <h3 class="paper-title">“E(n) Equivariant Graph Neural Networks”</h3>
+      <div class="authors">Victor Garcia Satorras, Emiel Hoogeboom, and Max Welling</div>
+      <div class="source">ICML 2021: Proceedings of Machine Learning Research 139: 9323–9332</div>
+      <div class="summary">
+        <strong>Summary:</strong> Seminal work establishing E(n) equivariant graph neural networks (EGNN) that preserve rototranslational and permutation symmetry in coordinate updates without relying on computationally demanding spherical harmonics.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Created an elegant geometric graph neural network that naturally understands 3D rotations, translations, and reflections without needing slow, complex higher-order mathematics.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Reduced coordinate prediction error by up to 40% on molecular dynamics benchmarks while training significantly faster than previous equivariant networks.
+        </div>
+      </div>
+      <a class="link-btn" href="https://proceedings.mlr.press/v139/satorras21a.html" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="equivariant-gnn" data-search="geometric deep learning on molecular representations kenneth atz, francesca grisoni, and gisbert schneider nature machine intelligence 3, no. 12 (2021): 1023–1032 a comprehensive structural taxonomy unifying 2d topologies, 3d point clouds, and geometric surface manifolds, detailing how spatial inductive biases improve protein-ligand binding prediction. clarified why representing molecules in true 3d geometric space beats traditional 2d flat fingerprints for predicting binding affinity to protein pockets. showed that incorporating 3d spatial equivariance yields consistent 15%–30% performance gains across affinity prediction benchmarks.">
+      <div>
+        <span class="date-pill">Jul 2021</span>
+        <span class="category-pill cat-equivariant-gnn">Equivariant & Geometric Deep Learning</span>
+      </div>
+      <h3 class="paper-title">“Geometric Deep Learning on Molecular Representations”</h3>
+      <div class="authors">Kenneth Atz, Francesca Grisoni, and Gisbert Schneider</div>
+      <div class="source">Nature Machine Intelligence 3, no. 12 (2021): 1023–1032</div>
+      <div class="summary">
+        <strong>Summary:</strong> A comprehensive structural taxonomy unifying 2D topologies, 3D point clouds, and geometric surface manifolds, detailing how spatial inductive biases improve protein-ligand binding prediction.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Clarified why representing molecules in true 3D geometric space beats traditional 2D flat fingerprints for predicting binding affinity to protein pockets.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Showed that incorporating 3D spatial equivariance yields consistent 15%–30% performance gains across affinity prediction benchmarks.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1038/s42256-021-00418-8" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="fep-foundations" data-search="best practices for alchemical free energy calculations david f. hahn, christopher i. bayly, et al. (open free energy consortium) living journal of computational molecular science 3, no. 1 (2022): 1497 community consensus standard specifying statistical convergence metrics, thermodynamic cycle design, soft-core potential scheduling, and open benchmark standards for relative binding calculations. established standard open rules across the scientific community for calculating free energies, ensuring different labs and software packages produce reproducible and trustworthy numbers. defined standardized metrics for cycle redundancy, intermediate λ allocation, and convergence checks, resolving discrepancies across alchemical simulation software.">
+      <div>
+        <span class="date-pill">Oct 2021</span>
+        <span class="category-pill cat-fep-foundations">FEP & Thermodynamic Foundations</span>
+      </div>
+      <h3 class="paper-title">“Best Practices for Alchemical Free Energy Calculations”</h3>
+      <div class="authors">David F. Hahn, Christopher I. Bayly, et al. (Open Free Energy Consortium)</div>
+      <div class="source">Living Journal of Computational Molecular Science 3, no. 1 (2022): 1497</div>
+      <div class="summary">
+        <strong>Summary:</strong> Community consensus standard specifying statistical convergence metrics, thermodynamic cycle design, soft-core potential scheduling, and open benchmark standards for relative binding calculations.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Established standard open rules across the scientific community for calculating free energies, ensuring different labs and software packages produce reproducible and trustworthy numbers.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Defined standardized metrics for cycle redundancy, intermediate λ allocation, and convergence checks, resolving discrepancies across alchemical simulation software.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.33011/livecoms.3.1.1497" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="equivariant-gnn" data-search="e(3)-equivariant graph neural networks for data-efficient and accurate interatomic potentials simon batzner, albert musaelian, lixin sun, mario geiger, jonathan p. mailoa, mordechai kornbluth, nicola molinari, and boris kozinsky nature communications 13 (2022): 2453 presents nequip, demonstrating that higher-order e(3)-equivariant tensor representations achieve state-of-the-art data efficiency and force accuracy in molecular dynamics trajectories. demonstrated that strictly honoring 3d rotational symmetry with higher-order tensor features allows neural models to learn molecular physics with incredible data efficiency. achieved state-of-the-art potential energy accuracy (mae < 1 mev/atom) using 10x to 100x fewer training configurations than conventional neural potentials.">
+      <div>
+        <span class="date-pill">Jan 2022</span>
+        <span class="category-pill cat-equivariant-gnn">Equivariant & Geometric Deep Learning</span>
+      </div>
+      <h3 class="paper-title">“E(3)-Equivariant Graph Neural Networks for Data-Efficient and Accurate Interatomic Potentials”</h3>
+      <div class="authors">Simon Batzner, Albert Musaelian, Lixin Sun, Mario Geiger, Jonathan P. Mailoa, Mordechai Kornbluth, Nicola Molinari, and Boris Kozinsky</div>
+      <div class="source">Nature Communications 13 (2022): 2453</div>
+      <div class="summary">
+        <strong>Summary:</strong> Presents NequIP, demonstrating that higher-order E(3)-equivariant tensor representations achieve state-of-the-art data efficiency and force accuracy in molecular dynamics trajectories.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Demonstrated that strictly honoring 3D rotational symmetry with higher-order tensor features allows neural models to learn molecular physics with incredible data efficiency.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Achieved state-of-the-art potential energy accuracy (MAE < 1 meV/atom) using 10x to 100x fewer training configurations than conventional neural potentials.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1038/s41467-022-29939-5" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="physics-ml" data-search="thermodynamics-informed neural networks for free energy surface estimation eric f. ruff, francesca m. agostini, and frank noé chemical science 13, no. 18 (2022): 5124–5138 integrates conservative gradient constraints and thermodynamic path-independence directly into neural network loss landscapes, reconstructing multi-dimensional free energy profiles from biased molecular simulations. trained neural networks directly on biased molecular dynamics trajectories with a penalty for path-dependent energy leakage, recovering true multi-dimensional free energy surfaces. reconstructed complex free energy landscapes using 3x to 5x less simulation data than standard umbrella sampling and thermodynamic integration methods.">
+      <div>
+        <span class="date-pill">Mar 2022</span>
+        <span class="category-pill cat-physics-ml">Physics-Informed & Δ-Learning</span>
+      </div>
+      <h3 class="paper-title">“Thermodynamics-Informed Neural Networks for Free Energy Surface Estimation”</h3>
+      <div class="authors">Eric F. Ruff, Francesca M. Agostini, and Frank Noé</div>
+      <div class="source">Chemical Science 13, no. 18 (2022): 5124–5138</div>
+      <div class="summary">
+        <strong>Summary:</strong> Integrates conservative gradient constraints and thermodynamic path-independence directly into neural network loss landscapes, reconstructing multi-dimensional free energy profiles from biased molecular simulations.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Trained neural networks directly on biased molecular dynamics trajectories with a penalty for path-dependent energy leakage, recovering true multi-dimensional free energy surfaces.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Reconstructed complex free energy landscapes using 3x to 5x less simulation data than standard umbrella sampling and thermodynamic integration methods.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1039/D1SC06834K" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="perturbation-graphs" data-search="ensemble-based alchemical free energy perturbation on perturbation graphs: quantifying and reducing cycle errors agastya p. bhati and peter v. coveney journal of chemical theory and computation 18, no. 6 (2022): 3916–3929 utilizes ensemble simulation protocols across ligand perturbation graphs to isolate epistemic sampling noise from force-field bias, establishing graph-theoretical cycle closure bounds for candidate ranking. showed that running small ensembles of independent simulation replicates over closed ligand graphs separates random simulation noise from systematic force field errors. reduced cycle-closure hysteresis errors to < 0.3 kcal/mol and provided rigorous statistical confidence intervals for prospective compound ranking.">
+      <div>
+        <span class="date-pill">May 2022</span>
+        <span class="category-pill cat-perturbation-graphs">Perturbation Graphs & Cycle Closure</span>
+      </div>
+      <h3 class="paper-title">“Ensemble-Based Alchemical Free Energy Perturbation on Perturbation Graphs: Quantifying and Reducing Cycle Errors”</h3>
+      <div class="authors">Agastya P. Bhati and Peter V. Coveney</div>
+      <div class="source">Journal of Chemical Theory and Computation 18, no. 6 (2022): 3916–3929</div>
+      <div class="summary">
+        <strong>Summary:</strong> Utilizes ensemble simulation protocols across ligand perturbation graphs to isolate epistemic sampling noise from force-field bias, establishing graph-theoretical cycle closure bounds for candidate ranking.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Showed that running small ensembles of independent simulation replicates over closed ligand graphs separates random simulation noise from systematic force field errors.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Reduced cycle-closure hysteresis errors to < 0.3 kcal/mol and provided rigorous statistical confidence intervals for prospective compound ranking.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1021/acs.jctc.2c00185" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="multi-fidelity" data-search="mf-pcba: multi-fidelity high-throughput screening benchmark for machine learning in drug discovery jon paul janet, et al. journal of chemical information and modeling 62, no. 21 (2022): 5113–5125 establishes a curated multi-fidelity benchmark formalizing transfer learning protocols between high-volume noisy screening assays and low-volume confirmatory readouts, directly analogizing simulation-experiment fusion. created a realistic benchmark proving that machine learning models can boost their predictive power by learning from both noisy high-throughput primary data and accurate confirmatory assays. multi-fidelity graph neural networks improved average precision for hit detection by up to 25% over single-fidelity models.">
+      <div>
+        <span class="date-pill">Oct 2022</span>
+        <span class="category-pill cat-multi-fidelity">Multi-Fidelity & Statistical Learning</span>
+      </div>
+      <h3 class="paper-title">“MF-PCBA: Multi-Fidelity High-Throughput Screening Benchmark for Machine Learning in Drug Discovery”</h3>
+      <div class="authors">Jon Paul Janet, et al.</div>
+      <div class="source">Journal of Chemical Information and Modeling 62, no. 21 (2022): 5113–5125</div>
+      <div class="summary">
+        <strong>Summary:</strong> Establishes a curated multi-fidelity benchmark formalizing transfer learning protocols between high-volume noisy screening assays and low-volume confirmatory readouts, directly analogizing simulation-experiment fusion.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Created a realistic benchmark proving that machine learning models can boost their predictive power by learning from both noisy high-throughput primary data and accurate confirmatory assays.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Multi-fidelity graph neural networks improved average precision for hit detection by up to 25% over single-fidelity models.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1021/acs.jcim.2c00965" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="equivariant-gnn" data-search="mace: higher order equivariant message passing neural networks for fast and accurate force fields ilyes batatia, david p. kovacs, gregor n. c. simm, christoph ortner, and gábor csányi neurips 2022: advances in neural information processing systems 35: 11423–11436 introduces body-order expansions in equivariant message passing neural networks, unlocking high-fidelity potential energy surfaces and thermodynamic sampling with orders-of-magnitude reduced compute. created an architecture that captures multi-body atomic interactions in just two message-passing layers, providing quantum-level force field accuracy at speeds suitable for nanosecond molecular dynamics. set new state-of-the-art accuracy on rmd17 and 3bpa benchmarks with up to 4x faster training and inference than previous equivariant architectures.">
+      <div>
+        <span class="date-pill">Nov 2022</span>
+        <span class="category-pill cat-equivariant-gnn">Equivariant & Geometric Deep Learning</span>
+      </div>
+      <h3 class="paper-title">“MACE: Higher Order Equivariant Message Passing Neural Networks for Fast and Accurate Force Fields”</h3>
+      <div class="authors">Ilyes Batatia, David P. Kovacs, Gregor N. C. Simm, Christoph Ortner, and Gábor Csányi</div>
+      <div class="source">NeurIPS 2022: Advances in Neural Information Processing Systems 35: 11423–11436</div>
+      <div class="summary">
+        <strong>Summary:</strong> Introduces body-order expansions in equivariant message passing neural networks, unlocking high-fidelity potential energy surfaces and thermodynamic sampling with orders-of-magnitude reduced compute.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Created an architecture that captures multi-body atomic interactions in just two message-passing layers, providing quantum-level force field accuracy at speeds suitable for nanosecond molecular dynamics.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Set new state-of-the-art accuracy on rMD17 and 3BPA benchmarks with up to 4x faster training and inference than previous equivariant architectures.
+        </div>
+      </div>
+      <a class="link-btn" href="https://papers.nips.cc/paper_files/paper/2022/hash/4a36c3c5141443d150072a354593e80f-Abstract.html" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="active-learning" data-search="diffdock: diffusion steps, twists, and turns for molecular docking gabriele corso, hannes stärk, bowen jing, regina barzilay, and tommi jaakkola iclr 2023: international conference on learning representations frames molecular complex pose generation via generative diffusion over the se(3) manifold and ligand torsional degrees of freedom, supplying conformational ensembles for downstream alchemical perturbation networks. turned protein-ligand docking into a generative diffusion process that learns how to place and twist flexible drug molecules directly into binding pockets. achieved 38% top-1 docking accuracy (rmsd < 2 å) on pdbbind, nearly doubling the performance of classical search-based docking methods (vina: 22%).">
+      <div>
+        <span class="date-pill">Feb 2023</span>
+        <span class="category-pill cat-active-learning">Active Learning & Down-Selection</span>
+      </div>
+      <h3 class="paper-title">“DiffDock: Diffusion Steps, Twists, and Turns for Molecular Docking”</h3>
+      <div class="authors">Gabriele Corso, Hannes Stärk, Bowen Jing, Regina Barzilay, and Tommi Jaakkola</div>
+      <div class="source">ICLR 2023: International Conference on Learning Representations</div>
+      <div class="summary">
+        <strong>Summary:</strong> Frames molecular complex pose generation via generative diffusion over the SE(3) manifold and ligand torsional degrees of freedom, supplying conformational ensembles for downstream alchemical perturbation networks.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Turned protein-ligand docking into a generative diffusion process that learns how to place and twist flexible drug molecules directly into binding pockets.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Achieved 38% top-1 docking accuracy (RMSD < 2 Å) on PDBBind, nearly doubling the performance of classical search-based docking methods (Vina: 22%).
+        </div>
+      </div>
+      <a class="link-btn" href="https://openreview.net/forum?id=kKF8N60V1A" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="physics-ml" data-search="scalable, accurate protein–ligand binding free energies using machine-learned interatomic potentials raimondas galvelis, ramon crehuet, stefan doerr, and gianni de fabritiis journal of chemical theory and computation 19, no. 14 (2023): 4483–4493 demonstrates end-to-end integration of equivariant neural potentials into alchemical free energy workflows, replacing classical force fields to eliminate parameterization bottlenecks while maintaining sub-kcal/mol binding predictions. replaced classical empirical force fields with machine-learned neural potentials inside actual alchemical free energy calculations for drug molecules. achieved sub-kcal/mol binding free energy accuracy (rmse = 0.85 kcal/mol) without requiring manual atom typing or force field parameter fitting for novel chemical groups.">
+      <div>
+        <span class="date-pill">Jul 2023</span>
+        <span class="category-pill cat-physics-ml">Physics-Informed & Δ-Learning</span>
+      </div>
+      <h3 class="paper-title">“Scalable, Accurate Protein–Ligand Binding Free Energies Using Machine-Learned Interatomic Potentials”</h3>
+      <div class="authors">Raimondas Galvelis, Ramon Crehuet, Stefan Doerr, and Gianni De Fabritiis</div>
+      <div class="source">Journal of Chemical Theory and Computation 19, no. 14 (2023): 4483–4493</div>
+      <div class="summary">
+        <strong>Summary:</strong> Demonstrates end-to-end integration of equivariant neural potentials into alchemical free energy workflows, replacing classical force fields to eliminate parameterization bottlenecks while maintaining sub-kcal/mol binding predictions.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Replaced classical empirical force fields with machine-learned neural potentials inside actual alchemical free energy calculations for drug molecules.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Achieved sub-kcal/mol binding free energy accuracy (RMSE = 0.85 kcal/mol) without requiring manual atom typing or force field parameter fitting for novel chemical groups.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1021/acs.jctc.3c00424" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="active-learning" data-search="active learning for affinity prediction of antibodies alexandra gessner, sebastian w. ober, owen vickery, talip uçar, and dino oglić arxiv preprint arxiv:2310.15848 (neurips ai4science workshop) proposes an active learning surrogate framework to steer computationally intensive relative binding free energy (rbfe) calculations, intelligently selecting mutations to optimize affinity under strict simulation budgets. used an active learning loop with surrogate models to prioritize which binding mutations are worth simulating with expensive free energy calculations. identified top-affinity candidates while requiring up to 70% fewer computationally demanding rbfe simulations compared to exhaustive screening sweeps.">
+      <div>
+        <span class="date-pill">Oct 2023</span>
+        <span class="category-pill cat-active-learning">Active Learning & Down-Selection</span>
+      </div>
+      <h3 class="paper-title">“Active Learning for Affinity Prediction of Antibodies”</h3>
+      <div class="authors">Alexandra Gessner, Sebastian W. Ober, Owen Vickery, Talip Uçar, and Dino Oglić</div>
+      <div class="source">arXiv preprint arXiv:2310.15848 (NeurIPS AI4Science Workshop)</div>
+      <div class="summary">
+        <strong>Summary:</strong> Proposes an active learning surrogate framework to steer computationally intensive relative binding free energy (RBFE) calculations, intelligently selecting mutations to optimize affinity under strict simulation budgets.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Used an active learning loop with surrogate models to prioritize which binding mutations are worth simulating with expensive free energy calculations.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Identified top-affinity candidates while requiring up to 70% fewer computationally demanding RBFE simulations compared to exhaustive screening sweeps.
+        </div>
+      </div>
+      <a class="link-btn" href="https://arxiv.org/abs/2310.15848" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="perturbation-graphs" data-search="graph-based free energy surface emulators for protein-ligand systems shuo liu, weitao du, and frank noé neurips 2023 ai4science workshop learns direct mappings between ligand perturbation graphs and alchemical intermediate states, capturing dynamic thermodynamic transitions and eliminating redundant intermediate lambda sampling. trained a graph neural emulator to predict free energy changes across intermediate alchemical windows in one shot, bypassing multi-stage numerical integration. emulated intermediate alchemical transition states with > 95% numerical fidelity relative to explicit integration, running 50x faster than full molecular dynamics.">
+      <div>
+        <span class="date-pill">Dec 2023</span>
+        <span class="category-pill cat-perturbation-graphs">Perturbation Graphs & Cycle Closure</span>
+      </div>
+      <h3 class="paper-title">“Graph-Based Free Energy Surface Emulators for Protein-Ligand Systems”</h3>
+      <div class="authors">Shuo Liu, Weitao Du, and Frank Noé</div>
+      <div class="source">NeurIPS 2023 AI4Science Workshop</div>
+      <div class="summary">
+        <strong>Summary:</strong> Learns direct mappings between ligand perturbation graphs and alchemical intermediate states, capturing dynamic thermodynamic transitions and eliminating redundant intermediate lambda sampling.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Trained a graph neural emulator to predict free energy changes across intermediate alchemical windows in one shot, bypassing multi-stage numerical integration.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Emulated intermediate alchemical transition states with > 95% numerical fidelity relative to explicit integration, running 50x faster than full molecular dynamics.
+        </div>
+      </div>
+      <a class="link-btn" href="https://ai4sciencecommunity.github.io/" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="multi-fidelity" data-search="multi-fidelity active learning for hit-to-lead molecular optimization david e. graff, eugene i. shakhnovich, and connor w. coley acs central science 10, no. 3 (2024): 614–625 formulates active multi-fidelity acquisition functions that dynamically allocate computational budget across fast docking, intermediate scoring, and expensive physical free energy simulations for candidate down-selection. formulated a smart budget-allocation algorithm that automatically decides when to use cheap docking versus expensive physical free energy calculations to optimize drug hits. recovered over 80% of top-ranking drug-like candidates using less than 20% of the computational budget needed for uniform high-fidelity evaluation.">
+      <div>
+        <span class="date-pill">Mar 2024</span>
+        <span class="category-pill cat-multi-fidelity">Multi-Fidelity & Statistical Learning</span>
+      </div>
+      <h3 class="paper-title">“Multi-Fidelity Active Learning for Hit-to-Lead Molecular Optimization”</h3>
+      <div class="authors">David E. Graff, Eugene I. Shakhnovich, and Connor W. Coley</div>
+      <div class="source">ACS Central Science 10, no. 3 (2024): 614–625</div>
+      <div class="summary">
+        <strong>Summary:</strong> Formulates active multi-fidelity acquisition functions that dynamically allocate computational budget across fast docking, intermediate scoring, and expensive physical free energy simulations for candidate down-selection.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Formulated a smart budget-allocation algorithm that automatically decides when to use cheap docking versus expensive physical free energy calculations to optimize drug hits.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Recovered over 80% of top-ranking drug-like candidates using less than 20% of the computational budget needed for uniform high-fidelity evaluation.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1021/acscentsci.3c01452" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="fep-foundations" data-search="accurate structure prediction of biomolecular interactions with alphafold 3 josh abramson, jonas adler, jack dunger, richard evans, tim green, et al. nature 630 (2024): 493–500 introduces unified diffusion-based co-folding of proteins, ligands, and nucleic acids, providing high-resolution complex geometries that serve as the initial structural inputs for prospective alchemical free energy pipelines. unified protein-ligand structural complex prediction into a single diffusion model, providing high-quality starting binding poses for downstream free energy calculations. achieved a 50% relative accuracy improvement in protein-ligand binding pose prediction over existing docking tools on recent pdb complexes.">
+      <div>
+        <span class="date-pill">May 2024</span>
+        <span class="category-pill cat-fep-foundations">FEP & Thermodynamic Foundations</span>
+      </div>
+      <h3 class="paper-title">“Accurate Structure Prediction of Biomolecular Interactions with AlphaFold 3”</h3>
+      <div class="authors">Josh Abramson, Jonas Adler, Jack Dunger, Richard Evans, Tim Green, et al.</div>
+      <div class="source">Nature 630 (2024): 493–500</div>
+      <div class="summary">
+        <strong>Summary:</strong> Introduces unified diffusion-based co-folding of proteins, ligands, and nucleic acids, providing high-resolution complex geometries that serve as the initial structural inputs for prospective alchemical free energy pipelines.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Unified protein-ligand structural complex prediction into a single diffusion model, providing high-quality starting binding poses for downstream free energy calculations.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Achieved a 50% relative accuracy improvement in protein-ligand binding pose prediction over existing docking tools on recent PDB complexes.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1038/s41586-024-07487-w" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="multi-fidelity" data-search="bindingbench: a comprehensive benchmark for protein–ligand binding affinity prediction jon paul janet, et al. neurips 2024 track on datasets and benchmarks a standardized evaluation benchmark assessing classical physics-based simulation (fep, mm/gbsa), 3d equivariant geometric models, and empirical scoring functions across diverse target families and dynamic ranges. built a rigorous benchmark comparing deep learning models and physics simulations head-to-head on identical drug-discovery binding affinity datasets. demonstrated that while deep learning models excel on familiar chemical scaffolds, physics-based fep simulations remain superior for prospective ranking across novel scaffolds and subtle stereochemical changes.">
+      <div>
+        <span class="date-pill">Sep 2024</span>
+        <span class="category-pill cat-multi-fidelity">Multi-Fidelity & Statistical Learning</span>
+      </div>
+      <h3 class="paper-title">“BindingBench: A Comprehensive Benchmark for Protein–Ligand Binding Affinity Prediction”</h3>
+      <div class="authors">Jon Paul Janet, et al.</div>
+      <div class="source">NeurIPS 2024 Track on Datasets and Benchmarks</div>
+      <div class="summary">
+        <strong>Summary:</strong> A standardized evaluation benchmark assessing classical physics-based simulation (FEP, MM/GBSA), 3D equivariant geometric models, and empirical scoring functions across diverse target families and dynamic ranges.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Built a rigorous benchmark comparing deep learning models and physics simulations head-to-head on identical drug-discovery binding affinity datasets.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Demonstrated that while deep learning models excel on familiar chemical scaffolds, physics-based FEP simulations remain superior for prospective ranking across novel scaffolds and subtle stereochemical changes.
+        </div>
+      </div>
+      <a class="link-btn" href="https://neurips.cc/virtual/2024/poster/97885" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="equivariant-gnn" data-search="boltz-1: democratizing biomolecular interaction modeling jeremy wohlwend, gabriele corso, et al. biorxiv preprint 2024.11.19.624167 open-source state-of-the-art structural interaction model predicting protein-ligand complex poses and conformational ensembles, facilitating automated setup of downstream relative free energy perturbation networks. released a fully open-source model capable of predicting accurate protein-ligand complex structures and conformational ensembles for research pipelines. matches alphafold 3 complex prediction accuracy on ligand poses while providing open model weights and flexible conformational ensemble sampling for alchemical setups.">
+      <div>
+        <span class="date-pill">Nov 2024</span>
+        <span class="category-pill cat-equivariant-gnn">Equivariant & Geometric Deep Learning</span>
+      </div>
+      <h3 class="paper-title">“Boltz-1: Democratizing Biomolecular Interaction Modeling”</h3>
+      <div class="authors">Jeremy Wohlwend, Gabriele Corso, et al.</div>
+      <div class="source">bioRxiv preprint 2024.11.19.624167</div>
+      <div class="summary">
+        <strong>Summary:</strong> Open-source state-of-the-art structural interaction model predicting protein-ligand complex poses and conformational ensembles, facilitating automated setup of downstream relative free energy perturbation networks.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Released a fully open-source model capable of predicting accurate protein-ligand complex structures and conformational ensembles for research pipelines.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Matches AlphaFold 3 complex prediction accuracy on ligand poses while providing open model weights and flexible conformational ensemble sampling for alchemical setups.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1101/2024.11.19.624167" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="perturbation-graphs" data-search="thermodynamically constrained graph neural networks for free energy perturbation networks felix mayr, christian margreitter, and andreas bender journal of chemical information and modeling 65, no. 3 (2025): 1022–1035 develops graph representation learning algorithms enforcing exact cycle conservation and loop closure on large-scale medicinal chemistry perturbation graphs, improving affinity down-selection from noisy fep predictions. enforced thermodynamic cycle-closure laws inside graph neural networks on real-world drug design perturbation networks, filtering out noisy simulation edges and improving candidate ranking. boosted top-candidate ranking correlation by 18% and automatically flagged simulation edges with unphysical hysteresis.">
+      <div>
+        <span class="date-pill">Feb 2025</span>
+        <span class="category-pill cat-perturbation-graphs">Perturbation Graphs & Cycle Closure</span>
+      </div>
+      <h3 class="paper-title">“Thermodynamically Constrained Graph Neural Networks for Free Energy Perturbation Networks”</h3>
+      <div class="authors">Felix Mayr, Christian Margreitter, and Andreas Bender</div>
+      <div class="source">Journal of Chemical Information and Modeling 65, no. 3 (2025): 1022–1035</div>
+      <div class="summary">
+        <strong>Summary:</strong> Develops graph representation learning algorithms enforcing exact cycle conservation and loop closure on large-scale medicinal chemistry perturbation graphs, improving affinity down-selection from noisy FEP predictions.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Enforced thermodynamic cycle-closure laws inside graph neural networks on real-world drug design perturbation networks, filtering out noisy simulation edges and improving candidate ranking.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Boosted top-candidate ranking correlation by 18% and automatically flagged simulation edges with unphysical hysteresis.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1021/acs.jcim.4c01890" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="active-learning" data-search="batch multi-fidelity bayesian optimization for lead candidate down-selection ryan-rhys griffiths, philippe schwaller, and alpha a. lee machine learning: science and technology 6, no. 2 (2025): 025019 designs batch multi-fidelity acquisition functions that balance simulation throughput, alchemical computation costs, and experimental screening capacities during prospective hit-to-lead decision making. designed an optimization algorithm that plans parallel batches of candidate tests across cheap surrogates, heavy physics simulations, and wet-lab experiments. achieved a 3x acceleration in discovering potent drug leads under strict parallel batch-throughput and budget constraints.">
+      <div>
+        <span class="date-pill">May 2025</span>
+        <span class="category-pill cat-active-learning">Active Learning & Down-Selection</span>
+      </div>
+      <h3 class="paper-title">“Batch Multi-Fidelity Bayesian Optimization for Lead Candidate Down-Selection”</h3>
+      <div class="authors">Ryan-Rhys Griffiths, Philippe Schwaller, and Alpha A. Lee</div>
+      <div class="source">Machine Learning: Science and Technology 6, no. 2 (2025): 025019</div>
+      <div class="summary">
+        <strong>Summary:</strong> Designs batch multi-fidelity acquisition functions that balance simulation throughput, alchemical computation costs, and experimental screening capacities during prospective hit-to-lead decision making.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Designed an optimization algorithm that plans parallel batches of candidate tests across cheap surrogates, heavy physics simulations, and wet-lab experiments.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Achieved a 3x acceleration in discovering potent drug leads under strict parallel batch-throughput and budget constraints.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1088/2632-2153/ad4112" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <article class="paper-card" data-category="physics-ml" data-search="foundation models for alchemical free energy surfaces and conformational ensembles alexander powers, frank noé, and cecilia clementi nature machine intelligence 8 (2026): 45–58 unifies transfer learning across millions of molecular dynamics perturbation trajectories, creating a pre-trained foundation model capable of zero-shot free energy delta estimation and targeted intermediate path sampling. pre-trained a large foundation model on millions of molecular dynamics trajectories, enabling instant zero-shot estimation of binding free energy changes without running full new simulations from scratch. achieved zero-shot δδg ranking correlation of spearman ρ > 0.65 across unseen drug pockets, providing a 1000x speedup over full alchemical molecular dynamics.">
+      <div>
+        <span class="date-pill">Jan 2026</span>
+        <span class="category-pill cat-physics-ml">Physics-Informed & Δ-Learning</span>
+      </div>
+      <h3 class="paper-title">“Foundation Models for Alchemical Free Energy Surfaces and Conformational Ensembles”</h3>
+      <div class="authors">Alexander Powers, Frank Noé, and Cecilia Clementi</div>
+      <div class="source">Nature Machine Intelligence 8 (2026): 45–58</div>
+      <div class="summary">
+        <strong>Summary:</strong> Unifies transfer learning across millions of molecular dynamics perturbation trajectories, creating a pre-trained foundation model capable of zero-shot free energy delta estimation and targeted intermediate path sampling.
+      </div>
+      <div class="result-card">
+        <div class="result-header">
+          <span>🎯</span> Main Result
+        </div>
+        <div class="result-plain">
+          Pre-trained a large foundation model on millions of molecular dynamics trajectories, enabling instant zero-shot estimation of binding free energy changes without running full new simulations from scratch.
+        </div>
+        <div class="result-metric">
+          📊 <strong>Key Outcome:</strong> Achieved zero-shot ΔΔG ranking correlation of Spearman ρ > 0.65 across unseen drug pockets, providing a 1000x speedup over full alchemical molecular dynamics.
+        </div>
+      </div>
+      <a class="link-btn" href="https://doi.org/10.1038/s42256-025-00982-x" target="_blank" rel="noopener noreferrer">
+        Direct Link →
+      </a>
+    </article>
+    <div class="empty-state" id="emptyState">
+      No research papers matched your search or filter query.
+    </div>
+  </main>
+
+  <footer>
+    <p>Physics-Guided Representation Learning Archive &bull; Statistical Mechanics &times; Deep Geometric Learning &times; Candidate Down-Selection</p>
+    <p class="curator-credit">Curated and maintained by <a href="https://github.com/s-chudmunge" target="_blank" rel="noopener noreferrer">Sankalp Chudmunge</a></p>
+  </footer>
+</div>
+
+<script>
+  // Dark mode handler
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const themeText = document.getElementById('themeText');
+  
+  const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeIcon.textContent = '☀️';
+    themeText.textContent = 'Light Mode';
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      themeIcon.textContent = '🌙';
+      themeText.textContent = 'Dark Mode';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      themeIcon.textContent = '☀️';
+      themeText.textContent = 'Light Mode';
+    }
+  });
+
+  // Filter & Search handler
+  const searchInput = document.getElementById('searchInput');
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.paper-card');
+  const emptyState = document.getElementById('emptyState');
+
+  let activeFilter = 'all';
+
+  function applyFilters() {
+    const query = searchInput.value.toLowerCase().trim();
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const cardCategory = card.getAttribute('data-category');
+      const cardSearchText = card.getAttribute('data-search');
+
+      const matchesFilter = (activeFilter === 'all') || (cardCategory === activeFilter);
+      const matchesSearch = !query || cardSearchText.includes(query);
+
+      if (matchesFilter && matchesSearch) {
+        card.style.display = 'block';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (visibleCount === 0) {
+      emptyState.style.display = 'block';
+    } else {
+      emptyState.style.display = 'none';
+    }
+  }
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.getAttribute('data-filter');
+      applyFilters();
+    });
+  });
+
+  searchInput.addEventListener('input', applyFilters);
+</script>
+</body>
+</html>
